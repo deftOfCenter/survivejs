@@ -8,6 +8,8 @@ var ROOT_PATH = path.resolve(__dirname);
 var APP_PATH = path.resolve(ROOT_PATH, 'app');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
+process.env.BABEL_ENV = TARGET;
+
 var common = {
   entry: APP_PATH,
   resolve: {
@@ -34,26 +36,17 @@ var common = {
   plugins: [
     new HtmlwebpackPlugin({
       title: 'Kanban app'
-    }),
-    new webpack.HotModuleReplacementPlugin()
-  ],
-  devServer: {
-    historyApiFallback: true,
-    hot: true,
-    inline: true,
-    progress: true
-  }
+    })
+  ]
 };
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
     devtool: 'cheap-eval-source-map',
     plugins: [
-      new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
       historyApiFallback: true,
-      hot: true,
       inline: true,
       progress: true
     }
