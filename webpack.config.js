@@ -1,22 +1,24 @@
-var path = require('path');
-var HtmlwebpackPlugin = require('html-webpack-plugin');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
+const path = require('path');
+// const HtmlwebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const webpack = require('webpack');
+const NpmInstallPlugin = require('npm-install-webpack-plugin');
 
-var TARGET = process.env.npm_lifecycle_event;
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+const TARGET = process.env.npm_lifecycle_event;
+const PATHS = {
+  app: path.join(__dirname, 'app'),
+  build: path.join(__dirname, 'build'),
+};
 
 process.env.BABEL_ENV = TARGET;
 
 var common = {
-  entry: APP_PATH,
+  entry: PATHS.app,
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
   output: {
-    path: BUILD_PATH,
+    path: PATHS.build,
     filename: 'bundle.js'
   },
   module: {
@@ -24,31 +26,60 @@ var common = {
       {
         test: /\.css$/,
         loaders: ['style', 'css'],
-        include: APP_PATH
+        include: PATHS.app
       },
       {
         test: /\.jsx?$/,
-        loaders: ['babel'],
-        include: APP_PATH
+        // Enable caching for improved performance during development
+        // It uses default OS directory by default. If you need something
+        // more custom, pass a path to it. I.e., babel?cacheDirectory=<path>
+        loaders: ['babel?cacheDirectory'],
+        // Parse only app files! Without this it will go through entire project.
+        // In addition to being slow, that will most likely result in an error.
+        include: PATHS.app
       }
     ]
   },
-  plugins: [
-    new HtmlwebpackPlugin({
-      title: 'Kanban app'
-    })
-  ]
+  // plugins: [
+  //   new HtmlwebpackPlugin({
+  //     title: 'Kanban app'
+  //   })
+  // ]
 };
 
 if(TARGET === 'start' || !TARGET) {
   module.exports = merge(common, {
-    devtool: 'cheap-eval-source-map',
-    plugins: [
-    ],
+    devtool: 'eval-source-map',
     devServer: {
+      contentBase: PATHS.build,
+
       historyApiFallback: true,
+      hot: true,
       inline: true,
-      progress: true
-    }
+      progress: true,
+
+      // Display only errors to reduce the amount of output.
+      stats: 'errors-only',
+
+      // Parse host and port from env so thisis easy to customize.
+      //
+      // If using Vagrant or Cloud9, set
+      // host: process.env.HOST || '0.0.0.0';
+      //
+      // 0.0.0.0 is available to all network devices unlike
+      // localhost
+      host: process.env.HOST,
+      port: process.env.PORT
+    },
+    plugins: [
+      new webpack.HotModuleReplacementPlugin(),
+      new NpmInstallPlugin({
+        save: true // --save
+      })
+    ],
   });
+}
+
+if(TARGET === 'build') {
+  module.exports = merge(common, {});
 }

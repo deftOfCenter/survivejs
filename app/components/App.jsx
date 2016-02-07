@@ -10,7 +10,7 @@ export default class App extends React.Component {
       notes: [
         {
           id: uuid.v4(),
-          task: 'Learn Webpack 23'
+          task: 'Learn Webpack'
         },
         {
           id: uuid.v4(),
@@ -22,23 +22,40 @@ export default class App extends React.Component {
         }
       ]
     };
-    this.addNote = this.addNote.bind(this);
   }
   render() {
     const notes = this.state.notes;
     return (
       <div>
-        <button className="add-note" onClick={this.addNote}>+</button>
-        <Notes items={notes} />
+        <button className="notes__add" onClick={this.addNote}>+</button>
+        <Notes notes={notes}
+          onEdit={this.editNote}
+          onDelete={this.deleteNote} />
       </div>
     );
   }
-  addNote() {
+  addNote = () => {
     this.setState({
-      notes: this.state.notes.concat([{
+      notes: [...this.state.notes, {
         id: uuid.v4(),
         task: 'New task'
-      }])
+      }]
     });
-  }
+  };
+  editNote = (id, task) => {
+    const notes = this.state.notes.map(note => {
+      if(note.id == id && task) {
+        note.task = task;
+      }
+
+      return note;
+    });
+
+    this.setState({notes});
+  };
+  deleteNote = (id) => {
+    this.setState({
+      notes: this.state.notes.filter(note => note.id !== id)
+    });
+  };
 }

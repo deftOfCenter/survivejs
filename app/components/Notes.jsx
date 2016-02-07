@@ -1,17 +1,14 @@
 import React from 'react';
 import Note from './Note.jsx';
 
-export default class Notes extends React.Component{
-  render() {
-    const notes = this.props.items;
-
-    return <ul className="notes">{notes.map(this.renderNote)}</ul>;
-  }
-  renderNote(note) {
-    return (
-      <li className="note" key={`note${note.id}`}>
-        <Note task={note.task} />
+export default ({notes,onEdit,onDelete}) => {
+  return (
+    <ul className="notes">{notes.map(note =>
+      <li className="note" key={note.id}>
+        <Note task={note.task}
+          onEdit={onEdit.bind(null, note.id)}
+          onDelete={onDelete.bind(null, note.id)} />
       </li>
-    );
-  }
+    )}</ul>
+  );
 }
