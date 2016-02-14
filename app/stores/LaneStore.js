@@ -13,9 +13,27 @@ class  LaneStore {
 
     lane.id = uuid.v4();
     lane.notes = lane.notes || [];
+    lane.editing = true;
 
     this.setState({
       lanes: lanes.concat(lane)
+    });
+  }
+  update(updatedLane) {
+    const lanes = this.lanes.map(lane => {
+      if(lane.id === updatedLane.id) {
+        return Object.assign({}, lane, updatedLane);
+      }
+
+      return lane;
+    });
+
+    this.setState({lanes});
+  }
+  delete(id) {
+    // TODO: find and delete notes when deleting lanes
+    this.setState({
+      lanes: this.lanes.filter(lane => lane.id !== id)
     });
   }
   attachToLane({laneId, noteId}) {

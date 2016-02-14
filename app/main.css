@@ -23,12 +23,12 @@ background-color: #fdfdfd;
 box-shadow: 0 0 0.3em 0.03em rgba(0, 0, 0, 0.7);
  transition: 0.6s;
 }
-.note .note__task {
+.note .value {
 /* force to use inline-block so that it gets minimum height */
 display: inline-block;
 }
 
-.note .note__delete {
+.note .delete {
   float: right;
   padding: 0;
   background-color: #fdfdfd;
@@ -36,6 +36,6 @@ display: inline-block;
   cursor: pointer;
   visibility: hidden;
 }
-.note:hover .note__delete {
+.note:hover .delete {
   visibility: visible;
 }
