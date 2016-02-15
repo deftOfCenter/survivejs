@@ -3,6 +3,53 @@ body {
   color: #ffaa00;
    font-family: sans-serif;
 }
+
+.lane {
+  display: inline-block;
+
+  margin: 1em;
+
+  background-color: #efefef;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+
+  min-width: 10em;
+  vertical-align: top;
+}
+.lane-header {
+  overflow:auto;
+  padding: 1em;
+  color: #efefef;
+  background-color: #333;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.lane-name {
+  float: left;
+}
+.lane-add-note {
+  float: left;
+  margin-right: 0.5rem;
+}
+.lane-delete {
+  float: right;
+  margin-left: 0.5rem;
+  visibility: hidden;
+}
+.lane-header:hover .lane-delete {
+  visibility: visible;
+}
+.add-lane, .lane-add-note button {
+  cursor: pointer;
+  background-color: #fdfdfd;
+  border: 1px solid #ccc;
+}
+.lane-delete button {
+  padding: 0;
+  cursor: pointer;
+  color: white;
+  background-color: rgba(0,0,0,0);
+  border: 0;
+}
 .notes__add {
   background-color: #fdfdfd;
   border: 1px solid #ccc;
