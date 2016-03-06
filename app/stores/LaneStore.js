@@ -39,7 +39,11 @@ class  LaneStore {
   }
   attachToLane({laneId, noteId}) {
     const lanes = this.lanes.map(lane => {
-      if(lane.id=== laneId ) {
+      if(lane.notes.includes(noteId)) {
+        lane.notes = lane.notes.filter(note => note !== noteId);
+      }
+      
+      if(lane.id === laneId ) {
         if(lane.notes.includes(noteId)) {
           console.warn('Alrady attached note to lane', lanes);
         }
