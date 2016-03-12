@@ -9,7 +9,7 @@
     "start": "webpack-dev-server",
     "test": "karma start",
     "tdd": "karma start --auto-watch --no-single-run",
-    "build": "webpack",
+    "build": "webpack"
   },
   "author": "",
   "license": "ISC",
