@@ -6,9 +6,10 @@
   "scripts": {
     "deploy": "gh-pages -d build",
     "stats": "webpack --profile --json > stats.json",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server",
+    "test": "karma start",
+    "tdd": "karma start --auto-watch --no-single-run",
     "build": "webpack",
-    "start": "webpack-dev-server"
   },
   "author": "",
   "license": "ISC",
