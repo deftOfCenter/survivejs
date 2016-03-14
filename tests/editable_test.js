@@ -34,7 +34,7 @@ describe('Editable', () => {
     assert.equal(triggered, true);
   });
 
-  it('triggers onEdit', () => {
+  it('triggers onEdit on blur', () => {
     let triggered = false;
     const newValue = 'newValue';
     const onEdit = (val) => {
@@ -49,6 +49,24 @@ describe('Editable', () => {
     input.value = newValue;
 
     Simulate.blur(input);
+
+    assert.equal(triggered, true);
+  });
+
+  it('triggers onEdit on enter', () => {
+    let triggered = false;
+    const newValue = 'newValue';
+    const onEdit = (val) => {
+      triggered = true;
+      assert.equal(val, newValue);
+    };
+    const component = renderIntoDocument(
+      <Editable editing={true} value={'oldValue'} onEdit={onEdit} />
+    );
+
+    const input = findRenderedDOMComponentWithTag(component, 'input');
+    input.value = newValue;
+    Simulate.keyPress(input, {key: "Enter"});
 
     assert.equal(triggered, true);
   });
