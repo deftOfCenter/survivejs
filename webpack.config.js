@@ -21,11 +21,15 @@ process.env.BABEL_ENV = TARGET;
 
 var common = {
   entry: {
-    app: PATHS.app,
-    style: PATHS.style
+    app: PATHS.app
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
+  },
+  output: {
+    path: PATHS.build,
+    // Output using entry name
+    filename: '[name].js'
   },
   module: {
     loaders: [
@@ -58,7 +62,6 @@ if(TARGET === 'start' || !TARGET) {
     },
     devtool: 'eval-source-map',
     devServer: {
-
       historyApiFallback: true,
       hot: true,
       inline: true,
@@ -110,7 +113,6 @@ if(TARGET === 'build' || TARGET == 'stats') {
     },
     output: {
       path: PATHS.build,
-      // Output using entry name
       filename: '[name].[hash].js',
       chunkFilename: '[chunkhash].js'
     },
